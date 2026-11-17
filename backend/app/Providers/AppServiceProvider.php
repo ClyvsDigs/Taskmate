@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Database\NeonPostgresConnector;
 use App\Models\Task;
 use App\Policies\TaskPolicy;
 use Illuminate\Support\Facades\Gate;
@@ -12,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        // Neon requires the endpoint ID in the PDO "options" parameter when
+        // the local libpq does not support SNI. See NeonPostgresConnector.
+        $this->app->bind('db.connector.pgsql', fn () => new NeonPostgresConnector);
     }
 
     public function boot(): void

@@ -97,6 +97,9 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => env('DB_SSLMODE', 'prefer'),
+            // Optional override for Neon's SNI-less connections. When empty,
+            // the endpoint ID is derived from the "ep-..." host above.
+            'neon_endpoint' => env('DB_NEON_ENDPOINT'),
         ],
 
         'sqlsrv' => [
