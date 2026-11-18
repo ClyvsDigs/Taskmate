@@ -13,6 +13,7 @@ export default function Login() {
   const [form, setForm] = useState({ email: '', password: '', remember: false })
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   function update(field, value) {
     setForm((current) => ({ ...current, [field]: value }))
@@ -87,17 +88,27 @@ export default function Login() {
               <label className="tm-label" htmlFor="password">
                 Password<span className="tm-label__req">*</span>
               </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                className={`tm-input${errors.password ? ' has-error' : ''}`}
-                placeholder="••••••••"
-                value={form.password}
-                onChange={(event) => update('password', event.target.value)}
-                autoComplete="current-password"
-                required
-              />
+              <div className="tm-password-field">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  className={`tm-input${errors.password ? ' has-error' : ''}`}
+                  placeholder="••••••••"
+                  value={form.password}
+                  onChange={(event) => update('password', event.target.value)}
+                  autoComplete="current-password"
+                  required
+                />
+                <button
+                  type="button"
+                  className="tm-password-toggle"
+                  onClick={() => setShowPassword((value) => !value)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  <i className={`bi ${showPassword ? 'bi-eye' : 'bi-eye-slash'}`} aria-hidden="true" />
+                </button>
+              </div>
               {errors.password && (
                 <span className="tm-error" role="alert">
                   <i className="bi bi-exclamation-circle" aria-hidden="true" />

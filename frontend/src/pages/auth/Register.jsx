@@ -13,6 +13,7 @@ export default function Register() {
   const [form, setForm] = useState({ name: '', email: '', password: '', password_confirmation: '', terms: false })
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   function update(field, value) {
     setForm((current) => ({ ...current, [field]: value }))
@@ -113,17 +114,27 @@ export default function Register() {
                 <label className="tm-label" htmlFor="password">
                   Password<span className="tm-label__req">*</span>
                 </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  className={`tm-input${errors.password ? ' has-error' : ''}`}
-                  placeholder="Minimum 8 characters"
-                  value={form.password}
-                  onChange={(event) => update('password', event.target.value)}
-                  autoComplete="new-password"
-                  required
-                />
+                <div className="tm-password-field">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    className={`tm-input${errors.password ? ' has-error' : ''}`}
+                    placeholder="Minimum 8 characters"
+                    value={form.password}
+                    onChange={(event) => update('password', event.target.value)}
+                    autoComplete="new-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="tm-password-toggle"
+                    onClick={() => setShowPassword((value) => !value)}
+                    aria-label={showPassword ? 'Hide passwords' : 'Show passwords'}
+                  >
+                    <i className={`bi ${showPassword ? 'bi-eye' : 'bi-eye-slash'}`} aria-hidden="true" />
+                  </button>
+                </div>
                 {errors.password && (
                   <span className="tm-error" role="alert">
                     <i className="bi bi-exclamation-circle" aria-hidden="true" />
@@ -139,7 +150,7 @@ export default function Register() {
                 <input
                   id="password_confirmation"
                   name="password_confirmation"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   className={`tm-input${errors.password_confirmation ? ' has-error' : ''}`}
                   placeholder="Repeat password"
                   value={form.password_confirmation}

@@ -1021,6 +1021,36 @@ a:hover {
   height: 42px;
 }
 
+.tm-password-field {
+  position: relative;
+}
+
+.tm-password-field .tm-input {
+  padding-right: 42px;
+}
+
+.tm-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--tm-muted);
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.tm-password-toggle:hover {
+  color: var(--tm-navy);
+}
+
 .tm-textarea {
   min-height: 110px;
   resize: vertical;

@@ -129,7 +129,6 @@ export default function Sidebar({ open, onClose, counts = {}, onLogout }) {
                 <Avatar user={user} size="md" />
                 <div>
                   <div className="tm-dropdown__name">{user?.name}</div>
-                  <div className="tm-dropdown__email">{user?.email}</div>
                 </div>
               </div>
 
@@ -194,7 +193,6 @@ export default function Sidebar({ open, onClose, counts = {}, onLogout }) {
 
             <span className="tm-user-chip__meta">
               <span className="tm-user-chip__name">{user?.name}</span>
-              <span className="tm-user-chip__email">{user?.email}</span>
             </span>
 
             <i
