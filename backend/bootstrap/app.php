@@ -19,7 +19,11 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\HandleCors::class,
         ]);
 
-        $middleware->statefulApi();
+        // This SPA authenticates exclusively with Sanctum bearer tokens
+        // (Authorization: Bearer ...), never session cookies. statefulApi()
+        // would add web/CSRF middleware to requests whose Origin matches
+        // SANCTUM_STATEFUL_DOMAINS, causing a bogus 419 "CSRF token mismatch"
+        // on every login/register POST from the Vercel frontend.
 
         // Unauthenticated API calls always answer with 401 JSON, never a redirect.
         $middleware->redirectGuestsTo(fn (Request $request) => $request->is('api/*') ? null : route('login'));
