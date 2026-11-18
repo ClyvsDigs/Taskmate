@@ -19,7 +19,15 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => explode(',', (string) env('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173,http://localhost:8000,http://127.0.0.1:8000')),
+    'allowed_origins' => array_values(array_unique(array_filter(array_map(
+        // Browsers send Origin without a trailing slash. A trailing slash here
+        // makes the CORS check fail even when the host is correct.
+        fn ($origin) => rtrim(trim((string) $origin), '/'),
+        array_merge(
+            explode(',', (string) env('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173,http://localhost:8000,http://127.0.0.1:8000')),
+            [env('FRONTEND_URL')],
+        ),
+    )))),
 
     'allowed_origins_patterns' => [],
 

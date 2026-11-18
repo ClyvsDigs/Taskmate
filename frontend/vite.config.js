@@ -1,3 +1,4 @@
+/* global process */
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
@@ -12,7 +13,10 @@ const root = path.dirname(fileURLToPath(import.meta.url))
  * Vercel         : a normal Vite single page app (index.html entry) in `dist`.
  */
 export default defineConfig({
-  envDir: path.resolve(root, '../backend'),
+  // Load Vite env files from the frontend folder. On Vercel the value is
+  // injected as a build-time environment variable; locally the Vite proxy
+  // handles /api, so no .env file is required.
+  envDir: root,
   plugins: [
     ...(process.env.VERCEL
       ? []

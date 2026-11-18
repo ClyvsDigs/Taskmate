@@ -17,9 +17,9 @@ services:
       - key: APP_KEY
         sync: false
       - key: APP_URL
-        sync: false
+        value: https://taskmate-0b1x.onrender.com
       - key: FRONTEND_URL
-        sync: false
+        value: https://frontend-xi-pied-72.vercel.app
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_URL
@@ -39,6 +39,6 @@ services:
       - key: MAIL_MAILER
         value: log
       - key: SANCTUM_STATEFUL_DOMAINS
-        sync: false
+        value: frontend-xi-pied-72.vercel.app
       - key: CORS_ALLOWED_ORIGINS
-        sync: false
+        value: https://frontend-xi-pied-72.vercel.app

@@ -75,10 +75,17 @@ api.interceptors.response.use(
  * Normalise Laravel validation / auth errors into a flat { field: message } map.
  */
 export function extractErrors(error) {
+  const status = error?.response?.status
   const data = error?.response?.data
 
+  console.error('API request failed:', error)
+
   if (!data) {
-    return { general: 'Something went wrong. Please try again.' }
+    return {
+      general: status
+        ? `The server returned an error (${status}). Please check the backend logs and try again.`
+        : 'Unable to reach the server. Check the API URL and your connection, then try again.',
+    }
   }
 
   if (data.errors && typeof data.errors === 'object') {
@@ -95,7 +102,13 @@ export function extractErrors(error) {
     return { general: data.message }
   }
 
-  return { general: 'Something went wrong. Please try again.' }
+  // Laravel returns HTML error pages when APP_DEBUG is false. Avoid dumping
+  // markup into the UI, but expose the status so the failure is diagnosable.
+  return {
+    general: status
+      ? `The server returned an error (${status}). Please check the backend logs.`
+      : 'Something went wrong. Please try again.',
+  }
 }
 
 export default api

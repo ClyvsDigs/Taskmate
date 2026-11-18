@@ -287,6 +287,31 @@ Copy `backend/.env.example` to `backend/.env`. The important entries:
 | `CORS_ALLOWED_ORIGINS` | Comma separated list of allowed origins | localhost + 127.0.0.1 variants |
 | `VITE_API_URL` | API base URL used by the front-end | `/api` |
 
+### Vercel + Render production setup
+
+The Vite front-end and Laravel API are deployed separately. Set these in the
+**Render** service environment:
+
+```dotenv
+APP_URL=https://<your-app>.onrender.com
+FRONTEND_URL=https://<your-app>.vercel.app
+SANCTUM_STATEFUL_DOMAINS=<your-app>.vercel.app
+CORS_ALLOWED_ORIGINS=https://<your-app>.vercel.app
+DB_URL=<Neon PostgreSQL connection string>
+```
+
+Set this in the **Vercel** project (*Settings → Environment Variables*) and
+redeploy so Vite bakes it into the build:
+
+```dotenv
+VITE_API_URL=https://<your-app>.onrender.com/api
+```
+
+`VITE_API_URL` must be the **full backend origin plus `/api`**. Values such as
+`https://api`, `/api`, or an empty host make every request fail before Laravel
+is reached. `FRONTEND_URL` is also included in CORS and Sanctum's stateful
+domains automatically.
+
 ---
 
 ## API Reference
